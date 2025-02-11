@@ -6,6 +6,7 @@ import(
 	ini "github.com/jenjer/ChatGo/internal/clientPackage/iniFunc"
 	"fmt"
 	define "github.com/jenjer/ChatGo/internal/clientPackage/defines"
+	login "github.com/jenjer/ChatGo/internal/clientPackage/login"
 	"net"
 	"sync"
 	"time"
@@ -32,7 +33,7 @@ func iniMain()(string, bool){
 	} else {
 		ip = args[1]
 		fmt.Printf("is this server ip? (%s)\n(y/n) :", ip)
-		var temp string 
+		var temp string
 		fmt.Scanln(&temp)
 		if temp != "y" {
 			return "", false
@@ -57,6 +58,9 @@ func main() {
 	}
 	defer conn.Close()
 
+	login.Login()
+
+	login.set
 	var wg sync.WaitGroup
 	wg.Add(2)
 

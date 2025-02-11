@@ -4,17 +4,25 @@ import (
 	"encoding/xml"
 	"fmt"
 	"os"
+	"github.com/jenjer/ChatGo/internal/login"
 )
 
-type Data struct {
-	XMLName xml.Name `xml:"person"`
-	Name    string   `xml:"name"`
-	Age     int      `xml:"age"`
-	City    string   `xml:"city"`
+type Login struct {
+	XMLName xml.Name	`xml:"Login"`
+	Type	string		`xml:"Type"`
+	ID		string		`xml:"ID"`
+	PW		string		`xml:"PW"`
+}
+
+
+type Chat struct {
+	XMLName xml.Name	`xml:"Chat"`
+	ID		string		`xml:"ID"`
+	Chat	string		`xml:"ChatString"`
 }
 
 func XmlInit() {
-	testdata := Data{Name: "leesonsin", Age: 45, City: "hansando"}
+	testdata := Chat{ID "asdf", Chat: "hansando"}
 
 	file, err := os.Create("data.xml")
 	if err != nil {

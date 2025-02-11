@@ -9,32 +9,43 @@ City	internal/xmldata.go	13;"	w	access:public	ctype:Data	line:13	type:string
 Client_Const	internal/clientPackage/defines/clientConst.go	1;"	p	line:1
 Data	internal/xmldata.go	9;"	t	access:public	line:9	type:struct
 GetIni	internal/clientPackage/iniFunc/iniFunc.go	8;"	f	access:public	line:8	signature:(Section, Key string)	type:string
+Login	internal/clientPackage/login/login.go	1;"	p	line:1
+Login	internal/clientPackage/login/login.go	22;"	f	access:public	line:22	signature:()
 MainData	internal/clientPackage/defines/clientConst.go	3;"	c	access:public	line:3
 Name	internal/xmldata.go	11;"	w	access:public	ctype:Data	line:11	type:string
 ServerIP	internal/clientPackage/defines/clientConst.go	4;"	c	access:public	line:4
+SetID	internal/clientPackage/login/login.go	18;"	f	access:public	line:18	signature:(ID string)
+User	internal/clientPackage/login/login.go	8;"	t	access:public	line:8	type:struct
 XMLName	internal/xmldata.go	10;"	w	access:public	ctype:Data	line:10	type:xml.Name
 XmlInit	internal/xmldata.go	16;"	f	access:public	line:16	signature:()
+currentUser	internal/clientPackage/login/login.go	14;"	v	access:private	line:14	type:*User
 encoding/xml	internal/xmldata.go	4;"	i	line:4
 fmt	cmd/client/main.go	7;"	i	line:7
 fmt	cmd/server/main.go	4;"	i	line:4
 fmt	internal/clientPackage/iniFunc/iniFunc.go	5;"	i	line:5
+fmt	internal/clientPackage/login/login.go	4;"	i	line:4
 fmt	internal/xmldata.go	5;"	i	line:5
 github.com/jenjer/ChatGo/internal	cmd/client/main.go	4;"	i	line:4
 github.com/jenjer/ChatGo/internal/clientPackage/defines	cmd/client/main.go	8;"	i	line:8
 github.com/jenjer/ChatGo/internal/clientPackage/iniFunc	cmd/client/main.go	6;"	i	line:6
+github.com/jenjer/ChatGo/internal/clientPackage/login	cmd/client/main.go	9;"	i	line:9
 gopkg.in/ini.v1	internal/clientPackage/iniFunc/iniFunc.go	4;"	i	line:4
 handler	cmd/server/main.go	9;"	f	access:private	line:9	signature:(conn net.Conn)
+id	internal/clientPackage/login/login.go	9;"	w	access:private	ctype:User	line:9	type:string
 iniFunc	internal/clientPackage/iniFunc/iniFunc.go	1;"	p	line:1
-iniMain	cmd/client/main.go	14;"	f	access:private	line:14	signature:()	type:string, bool
+iniMain	cmd/client/main.go	15;"	f	access:private	line:15	signature:()	type:string, bool
 io	cmd/server/main.go	5;"	i	line:5
 main	cmd/client/main.go	1;"	p	line:1
-main	cmd/client/main.go	44;"	f	access:private	line:44	signature:()
+main	cmd/client/main.go	45;"	f	access:private	line:45	signature:()
 main	cmd/server/main.go	1;"	p	line:1
 main	cmd/server/main.go	36;"	f	access:private	line:36	signature:()
-net	cmd/client/main.go	9;"	i	line:9
+name	internal/clientPackage/login/login.go	10;"	w	access:private	ctype:User	line:10	type:string
+net	cmd/client/main.go	10;"	i	line:10
 net	cmd/server/main.go	6;"	i	line:6
+once	internal/clientPackage/login/login.go	15;"	v	access:private	line:15	type:sync.Once
 os	cmd/client/main.go	5;"	i	line:5
 os	internal/xmldata.go	6;"	i	line:6
-sync	cmd/client/main.go	10;"	i	line:10
-time	cmd/client/main.go	11;"	i	line:11
+sync	cmd/client/main.go	11;"	i	line:11
+sync	internal/clientPackage/login/login.go	5;"	i	line:5
+time	cmd/client/main.go	12;"	i	line:12
 xmldata	internal/xmldata.go	1;"	p	line:1

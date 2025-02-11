@@ -4,14 +4,17 @@
 !_TAG_PROGRAM_NAME	gotags
 !_TAG_PROGRAM_URL	https://github.com/jstemmer/gotags
 !_TAG_PROGRAM_VERSION	1.4.1	/go1.23.3/
+Login	login.go	4;"	f	access:public	line:4	signature:()
 fmt	main.go	7;"	i	line:7
+github.com/jenjer/ChatGo/cmd/client	main.go	9;"	i	line:9
 github.com/jenjer/ChatGo/internal	main.go	4;"	i	line:4
 github.com/jenjer/ChatGo/internal/clientPackage/defines	main.go	8;"	i	line:8
 github.com/jenjer/ChatGo/internal/clientPackage/iniFunc	main.go	6;"	i	line:6
-iniMain	main.go	14;"	f	access:private	line:14	signature:()	type:string, bool
+iniMain	main.go	15;"	f	access:private	line:15	signature:()	type:string, bool
+login	login.go	1;"	p	line:1
 main	main.go	1;"	p	line:1
-main	main.go	44;"	f	access:private	line:44	signature:()
-net	main.go	9;"	i	line:9
+main	main.go	45;"	f	access:private	line:45	signature:()
+net	main.go	10;"	i	line:10
 os	main.go	5;"	i	line:5
-sync	main.go	10;"	i	line:10
-time	main.go	11;"	i	line:11
+sync	main.go	11;"	i	line:11
+time	main.go	12;"	i	line:12
