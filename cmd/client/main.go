@@ -1,17 +1,35 @@
 package main
 
 import(
-	myxml "github.com/jenjer/ChatGo/internal"
+	"net"
+	"sync"
+	"time"
+	"encoding/xml"
+	xmlstruct "github.com/jenjer/ChatGo/internal"
 	"os"
 	ini "github.com/jenjer/ChatGo/internal/clientPackage/iniFunc"
 	"fmt"
 	define "github.com/jenjer/ChatGo/internal/clientPackage/defines"
 	login "github.com/jenjer/ChatGo/internal/clientPackage/login"
 	//Global "github.com/jenjer/ChatGo/internal/clientPackage"
-	"net"
-	"sync"
-	"time"
 )
+func makeXml(input string)(xmlstruct.Chat) {
+	var sendChat xmlstruct.Chat
+	sendChat.Type = "Chat"
+	sendChat.ID = "input ID"
+	sendChat.Chat = input
+	return sendChat
+}
+
+func makeString(bytes []byte) (string) {
+	var msg xmlstruct.Chat
+	err := xml.Unmarshal(bytes, &msg)
+	if err != nil {
+		fmt.Println("Error parsing Xml: ", err)
+		return ""
+	}
+	return msg.ID + " : " + msg.Chat
+}
 
 func iniMain()(string, bool){
 	args := os.Args
@@ -51,7 +69,7 @@ func main() {
 		return
 	}
 
-	myxml.XmlInit()
+	xmlstruct.XmlInit()
 	conn, err := net.Dial("tcp", ip)
 	if err != nil {
 		fmt.Println("failed to dial:", err)
@@ -68,9 +86,9 @@ func main() {
 	go func(c net.Conn) {
 		defer wg.Done()
 		defer c.Close()
+		fmt.Print("> ")
 		for {
 			var input string
-			fmt.Print("MyChat :  ")
 			fmt.Scanln(&input)
 
 			if input == "quit" {
@@ -82,7 +100,10 @@ func main() {
 				continue
 			}
 
-			_, err = c.Write([]byte(input))
+			Chatstruct := makeXml(input)
+			encoder := xml.NewEncoder(c)
+			err := encoder.Encode(Chatstruct)
+			//_, err = c.Write([]byte(input))
 			if err != nil {
 				fmt.Println("Failed to write data:", err)
 				return
@@ -96,14 +117,17 @@ func main() {
 		defer c.Close()
 		recv := make([]byte, 4096)
 		for {
-			n, err := c.Read(recv)
+			_, err := c.Read(recv)
 			if err != nil {
 				fmt.Println("Failed to read data:", err)
 				return
 			}
-			fmt.Printf("\nServer: %s\n", string(recv[:n]))
+			forPrint := makeString(recv)
+			fmt.Print("\r" + forPrint + "\n")// string(recv[:n]))
+			fmt.Print("> ")
 		}
 	}(conn)
 
 	wg.Wait()
 }
+

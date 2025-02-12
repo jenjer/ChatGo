@@ -5,8 +5,10 @@ import (
 	"io"
 	"net"
 	//"encoding/xml"
-	//xmlstruct "github.com/jenjer/ChatGo/internal"
+	xmlstruct "github.com/jenjer/ChatGo/internal"
 	"sync"
+	"encoding/xml"
+	DBConn "github.com/jenjer/ChatGo/internal/serverPackage/DB"
 	loginModule "github.com/jenjer/ChatGo/internal/serverPackage/Login"
 )
 
@@ -31,6 +33,20 @@ func NewServer() *Server {
 		register:	make(chan *Client),
 		unregister:	make(chan *Client),
 	}
+}
+
+func messageStruct(message []byte)(string) {
+	var msg xmlstruct.Chat
+	err := xml.Unmarshal(message, &msg)
+	if err != nil {
+		fmt.Println("Error parsing XmL:", err)
+		return ""
+	}
+	fmt.Printf("\nParsingData\n")
+	fmt.Printf("Message Type : %s\n", msg.Type)
+	fmt.Printf("Message ID : %s\n", msg.ID)
+	fmt.Printf("Message Chatstring : %s\n", msg.Chat)
+	return msg.ID + " : " + msg.Chat
 }
 
 func (s *Server) Start(){
@@ -121,6 +137,11 @@ func main() {
 
 		// 로그인 시도를 성공하면 하단으로 가고 아니면 그냥 패스해야됨
 		//개별적으로 close 해야될것들은 handleClient 에서 처리
+		DbConn := DBConn.NewUserDB("./")
+		testerr := AddUser("asdf","asdf")
+		if testerr != nil {
+			fmt.Printf("err : %v\n", testerr)
+
 		if (loginModule.TryLogin(conn) == true) {
 			client := &Client {
 				conn:		conn,
