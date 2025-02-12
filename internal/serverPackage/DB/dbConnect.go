@@ -47,7 +47,7 @@ func (udb *UserDB) AddUser(ID, PW string) error{
 
 func (udb *UserDB) ValidateUser(ID, password string) (bool, error) {
 	var storedPassword string
-	err := udb.db.QueryRow("SELECT PW FROM user WHERE ID =?", ID).Scan(&storedPassword)
+	err := udb.db.QueryRow("SELECT PW FROM users WHERE ID =?", ID).Scan(&storedPassword)
 	if err == sql.ErrNoRows {
 		return false, nil
 	}

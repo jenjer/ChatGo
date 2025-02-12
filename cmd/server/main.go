@@ -137,19 +137,25 @@ func main() {
 
 		// 로그인 시도를 성공하면 하단으로 가고 아니면 그냥 패스해야됨
 		//개별적으로 close 해야될것들은 handleClient 에서 처리
-		DbConn := DBConn.NewUserDB("./")
-		testerr := AddUser("asdf","asdf")
+		DbConn, terr := DBConn.NewUserDB("./testdb")
+		if terr != nil {
+			fmt.Printf("err : %v\n", terr)
+		}
+		testerr := DbConn.AddUser("asdf","asdf")
 		if testerr != nil {
 			fmt.Printf("err : %v\n", testerr)
 
-		if (loginModule.TryLogin(conn) == true) {
-			client := &Client {
-				conn:		conn,
-				id:			conn.RemoteAddr().String(),
-				outbound:	make(chan[]byte, 100),
+			if (loginModule.TryLogin(conn, DbConn) == true) {
+				client := &Client {
+					conn:		conn,
+					id:			conn.RemoteAddr().String(),
+					outbound:	make(chan[]byte, 100),
+				}
+				server.register <- client
+				go server.handleClient(client)
+			} else {
+				// login fail message send
 			}
-			server.register <- client
-			go server.handleClient(client)
 		}
 	}
 }

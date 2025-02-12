@@ -9,7 +9,7 @@ import (
 	DBConn "github.com/jenjer/ChatGo/internal/serverPackage/DB"
 )
 
-func TryLogin(conn net.Conn)(bool) {
+func TryLogin(conn net.Conn, DbConn *DBConn.UserDB)(bool) {
 	fmt.Printf("Read ID/PW")
 
 	recv := make([]byte, 4096)
@@ -40,9 +40,12 @@ func TryLogin(conn net.Conn)(bool) {
 		fmt.Printf("Message ID : %s\n", msg.ID)
 		fmt.Printf("Message PW : %s\n", msg.PW)
 
-		if (DBConn.ValidateUser(msg.ID, msg.PW) == true) {
+		if temp, err := DbConn.ValidateUser(msg.ID, msg.PW); temp == true {
 			return true
+		} else {
+			fmt.Println("Something is wrong : " ,err)
 		}
+
 	}
 	return false
 }
