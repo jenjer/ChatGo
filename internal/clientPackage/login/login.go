@@ -2,33 +2,21 @@ package Login
 
 import (
 	"fmt"
-	"sync"
-	"github.com/jenjer/ChatGo/internal"
-
+	"net"
+	//Globals "github.com/jenjer/ChatGo/internal/clientPackage"
+	xmldata "github.com/jenjer/ChatGo/internal"
+	sendxml "github.com/jenjer/ChatGo/internal/clientPackage/xmlSend"
 )
 
-type User struct {
-	id   string
-	name string
+func tryLogin(id string, pw string, conn net.Conn) {
+	var reqLoginXml xmldata.Login
+	reqLoginXml.ID = id
+	reqLoginXml.PW = pw
+	reqLoginXml.Type = "Login"
+	sendxml.SendMessage(conn, reqLoginXml)
 }
 
-var (
-	currentUser *User
-	once        sync.Once
-)
-
-func SetID(ID string) {
-	currentUser.id = ID
-}
-
-func GetID()(string) {
-	return currentUser.id
-}
-
-func tryLogin(id string, pw string) {
-}
-
-func Login() {
+func Login(conn net.Conn) {
 	var ID string
 	var PW string
 	fmt.Print("Input your Login ID : ")
@@ -38,4 +26,7 @@ func Login() {
 	fmt.Scan(&PW)
 
 	fmt.Printf("ID : %s, PW : %s\n", ID, PW)
+
+	tryLogin(ID, PW, conn)
+	//Globals.SetID(ID)
 }

@@ -4,48 +4,79 @@
 !_TAG_PROGRAM_NAME	gotags
 !_TAG_PROGRAM_URL	https://github.com/jstemmer/gotags
 !_TAG_PROGRAM_VERSION	1.4.1	/go1.23.3/
-Age	internal/xmldata.go	12;"	w	access:public	ctype:Data	line:12	type:int
-City	internal/xmldata.go	13;"	w	access:public	ctype:Data	line:13	type:string
+Chat	internal/xmldata.go	17;"	t	access:public	line:17	type:struct
+Chat	internal/xmldata.go	21;"	w	access:public	ctype:Chat	line:21	type:string
+Client	samplecode_server.go	11;"	t	access:public	line:11	type:struct
 Client_Const	internal/clientPackage/defines/clientConst.go	1;"	p	line:1
-Data	internal/xmldata.go	9;"	t	access:public	line:9	type:struct
+GetID	internal/clientPackage/Globals.go	21;"	f	access:public	line:21	signature:()	type:string
 GetIni	internal/clientPackage/iniFunc/iniFunc.go	8;"	f	access:public	line:8	signature:(Section, Key string)	type:string
+Globals	internal/clientPackage/Globals.go	1;"	p	line:1
+ID	internal/xmldata.go	12;"	w	access:public	ctype:Login	line:12	type:string
+ID	internal/xmldata.go	20;"	w	access:public	ctype:Chat	line:20	type:string
+Login	internal/clientPackage/login/login.go	19;"	f	access:public	line:19	signature:(conn net.Conn)
 Login	internal/clientPackage/login/login.go	1;"	p	line:1
-Login	internal/clientPackage/login/login.go	22;"	f	access:public	line:22	signature:()
+Login	internal/serverPackage/Login/login.go	1;"	p	line:1
+Login	internal/xmldata.go	9;"	t	access:public	line:9	type:struct
 MainData	internal/clientPackage/defines/clientConst.go	3;"	c	access:public	line:3
-Name	internal/xmldata.go	11;"	w	access:public	ctype:Data	line:11	type:string
+NewServer	samplecode_server.go	28;"	f	access:public	ctype:Server	line:28	signature:()	type:*Server
+PW	internal/xmldata.go	13;"	w	access:public	ctype:Login	line:13	type:string
+SendMessage	internal/clientPackage/xmlSend/sendxml.go	10;"	f	access:public	line:10	signature:(conn net.Conn, msg xmldata.Login)
+Server	samplecode_server.go	18;"	t	access:public	line:18	type:struct
 ServerIP	internal/clientPackage/defines/clientConst.go	4;"	c	access:public	line:4
-SetID	internal/clientPackage/login/login.go	18;"	f	access:public	line:18	signature:(ID string)
-User	internal/clientPackage/login/login.go	8;"	t	access:public	line:8	type:struct
-XMLName	internal/xmldata.go	10;"	w	access:public	ctype:Data	line:10	type:xml.Name
-XmlInit	internal/xmldata.go	16;"	f	access:public	line:16	signature:()
-currentUser	internal/clientPackage/login/login.go	14;"	v	access:private	line:14	type:*User
+SetID	internal/clientPackage/Globals.go	17;"	f	access:public	line:17	signature:(ID string)
+Start	samplecode_server.go	38;"	m	access:public	ctype:Server	line:38	signature:()
+Type	internal/xmldata.go	11;"	w	access:public	ctype:Login	line:11	type:string
+Type	internal/xmldata.go	19;"	w	access:public	ctype:Chat	line:19	type:string
+User	internal/clientPackage/Globals.go	7;"	t	access:public	line:7	type:struct
+XMLName	internal/xmldata.go	10;"	w	access:public	ctype:Login	line:10	type:xml.Name
+XMLName	internal/xmldata.go	18;"	w	access:public	ctype:Chat	line:18	type:xml.Name
+XmlInit	internal/xmldata.go	24;"	f	access:public	line:24	signature:()
+broadcast	samplecode_server.go	21;"	w	access:private	ctype:Server	line:21	type:chan []byte
+clients	samplecode_server.go	19;"	w	access:private	ctype:Server	line:19	type:map[string]*Client
+conn	samplecode_server.go	12;"	w	access:private	ctype:Client	line:12	type:net.Conn
+currentUser	internal/clientPackage/Globals.go	13;"	v	access:private	line:13	type:*User
+encoding/xml	internal/clientPackage/xmlSend/sendxml.go	6;"	i	line:6
 encoding/xml	internal/xmldata.go	4;"	i	line:4
 fmt	cmd/client/main.go	7;"	i	line:7
-fmt	cmd/server/main.go	4;"	i	line:4
 fmt	internal/clientPackage/iniFunc/iniFunc.go	5;"	i	line:5
 fmt	internal/clientPackage/login/login.go	4;"	i	line:4
+fmt	internal/clientPackage/xmlSend/sendxml.go	7;"	i	line:7
 fmt	internal/xmldata.go	5;"	i	line:5
+fmt	samplecode_server.go	4;"	i	line:4
 github.com/jenjer/ChatGo/internal	cmd/client/main.go	4;"	i	line:4
+github.com/jenjer/ChatGo/internal	internal/clientPackage/login/login.go	7;"	i	line:7
+github.com/jenjer/ChatGo/internal	internal/clientPackage/xmlSend/sendxml.go	5;"	i	line:5
 github.com/jenjer/ChatGo/internal/clientPackage/defines	cmd/client/main.go	8;"	i	line:8
 github.com/jenjer/ChatGo/internal/clientPackage/iniFunc	cmd/client/main.go	6;"	i	line:6
 github.com/jenjer/ChatGo/internal/clientPackage/login	cmd/client/main.go	9;"	i	line:9
+github.com/jenjer/ChatGo/internal/clientPackage/xmlSend	internal/clientPackage/login/login.go	8;"	i	line:8
 gopkg.in/ini.v1	internal/clientPackage/iniFunc/iniFunc.go	4;"	i	line:4
-handler	cmd/server/main.go	9;"	f	access:private	line:9	signature:(conn net.Conn)
-id	internal/clientPackage/login/login.go	9;"	w	access:private	ctype:User	line:9	type:string
+handleClient	samplecode_server.go	73;"	m	access:private	ctype:Server	line:73	signature:(client *Client)
+id	internal/clientPackage/Globals.go	8;"	w	access:private	ctype:User	line:8	type:string
+id	samplecode_server.go	13;"	w	access:private	ctype:Client	line:13	type:string
 iniFunc	internal/clientPackage/iniFunc/iniFunc.go	1;"	p	line:1
-iniMain	cmd/client/main.go	15;"	f	access:private	line:15	signature:()	type:string, bool
-io	cmd/server/main.go	5;"	i	line:5
+iniMain	cmd/client/main.go	16;"	f	access:private	line:16	signature:()	type:string, bool
+io	samplecode_server.go	7;"	i	line:7
 main	cmd/client/main.go	1;"	p	line:1
-main	cmd/client/main.go	45;"	f	access:private	line:45	signature:()
-main	cmd/server/main.go	1;"	p	line:1
-main	cmd/server/main.go	36;"	f	access:private	line:36	signature:()
-name	internal/clientPackage/login/login.go	10;"	w	access:private	ctype:User	line:10	type:string
-net	cmd/client/main.go	10;"	i	line:10
-net	cmd/server/main.go	6;"	i	line:6
-once	internal/clientPackage/login/login.go	15;"	v	access:private	line:15	type:sync.Once
+main	cmd/client/main.go	46;"	f	access:private	line:46	signature:()
+main	samplecode_server.go	109;"	f	access:private	line:109	signature:()
+main	samplecode_server.go	1;"	p	line:1
+mu	samplecode_server.go	20;"	w	access:private	ctype:Server	line:20	type:sync.RWMutex
+name	internal/clientPackage/Globals.go	9;"	w	access:private	ctype:User	line:9	type:string
+net	cmd/client/main.go	11;"	i	line:11
+net	internal/clientPackage/login/login.go	5;"	i	line:5
+net	internal/clientPackage/xmlSend/sendxml.go	4;"	i	line:4
+net	samplecode_server.go	5;"	i	line:5
+once	internal/clientPackage/Globals.go	14;"	v	access:private	line:14	type:sync.Once
 os	cmd/client/main.go	5;"	i	line:5
 os	internal/xmldata.go	6;"	i	line:6
-sync	cmd/client/main.go	11;"	i	line:11
-sync	internal/clientPackage/login/login.go	5;"	i	line:5
-time	cmd/client/main.go	12;"	i	line:12
+outbound	samplecode_server.go	14;"	w	access:private	ctype:Client	line:14	type:chan []byte
+register	samplecode_server.go	22;"	w	access:private	ctype:Server	line:22	type:chan *Client
+sendXML	internal/clientPackage/xmlSend/sendxml.go	1;"	p	line:1
+sync	cmd/client/main.go	12;"	i	line:12
+sync	internal/clientPackage/Globals.go	4;"	i	line:4
+sync	samplecode_server.go	6;"	i	line:6
+time	cmd/client/main.go	13;"	i	line:13
+tryLogin	internal/clientPackage/login/login.go	11;"	f	access:private	line:11	signature:(id string, pw string, conn net.Conn)
+unregister	samplecode_server.go	23;"	w	access:private	ctype:Server	line:23	type:chan *Client
 xmldata	internal/xmldata.go	1;"	p	line:1

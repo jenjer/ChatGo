@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"os"
-	"github.com/jenjer/ChatGo/internal/login"
 )
 
 type Login struct {
@@ -17,12 +16,13 @@ type Login struct {
 
 type Chat struct {
 	XMLName xml.Name	`xml:"Chat"`
+	Type	string		`xml:"Type"`
 	ID		string		`xml:"ID"`
 	Chat	string		`xml:"ChatString"`
 }
 
 func XmlInit() {
-	testdata := Chat{ID "asdf", Chat: "hansando"}
+	testdata := Chat{Type: "Chat", ID: "asdf", Chat: "hansando"}
 
 	file, err := os.Create("data.xml")
 	if err != nil {

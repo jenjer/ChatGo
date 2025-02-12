@@ -7,6 +7,7 @@ import(
 	"fmt"
 	define "github.com/jenjer/ChatGo/internal/clientPackage/defines"
 	login "github.com/jenjer/ChatGo/internal/clientPackage/login"
+	//Global "github.com/jenjer/ChatGo/internal/clientPackage"
 	"net"
 	"sync"
 	"time"
@@ -58,9 +59,8 @@ func main() {
 	}
 	defer conn.Close()
 
-	login.Login()
-
-	login.set
+	//login with Conn
+	login.Login(conn)
 	var wg sync.WaitGroup
 	wg.Add(2)
 

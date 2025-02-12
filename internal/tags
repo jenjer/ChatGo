@@ -1,0 +1,43 @@
+!_TAG_FILE_FORMAT	2
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted/
+!_TAG_PROGRAM_AUTHOR	Joel Stemmer	/stemmertech@gmail.com/
+!_TAG_PROGRAM_NAME	gotags
+!_TAG_PROGRAM_URL	https://github.com/jstemmer/gotags
+!_TAG_PROGRAM_VERSION	1.4.1	/go1.23.3/
+Chat	xmldata.go	17;"	t	access:public	line:17	type:struct
+Chat	xmldata.go	21;"	w	access:public	ctype:Chat	line:21	type:string
+Client_Const	clientPackage/defines/clientConst.go	1;"	p	line:1
+GetID	clientPackage/Globals.go	21;"	f	access:public	line:21	signature:()	type:string
+GetIni	clientPackage/iniFunc/iniFunc.go	8;"	f	access:public	line:8	signature:(Section, Key string)	type:string
+Globals	clientPackage/Globals.go	1;"	p	line:1
+ID	xmldata.go	12;"	w	access:public	ctype:Login	line:12	type:string
+ID	xmldata.go	20;"	w	access:public	ctype:Chat	line:20	type:string
+Login	clientPackage/login/login.go	11;"	f	access:public	line:11	signature:()
+Login	clientPackage/login/login.go	1;"	p	line:1
+Login	xmldata.go	9;"	t	access:public	line:9	type:struct
+MainData	clientPackage/defines/clientConst.go	3;"	c	access:public	line:3
+PW	xmldata.go	13;"	w	access:public	ctype:Login	line:13	type:string
+ServerIP	clientPackage/defines/clientConst.go	4;"	c	access:public	line:4
+SetID	clientPackage/Globals.go	17;"	f	access:public	line:17	signature:(ID string)
+Type	xmldata.go	11;"	w	access:public	ctype:Login	line:11	type:string
+Type	xmldata.go	19;"	w	access:public	ctype:Chat	line:19	type:string
+User	clientPackage/Globals.go	7;"	t	access:public	line:7	type:struct
+XMLName	xmldata.go	10;"	w	access:public	ctype:Login	line:10	type:xml.Name
+XMLName	xmldata.go	18;"	w	access:public	ctype:Chat	line:18	type:xml.Name
+XmlInit	xmldata.go	24;"	f	access:public	line:24	signature:()
+currentUser	clientPackage/Globals.go	13;"	v	access:private	line:13	type:*User
+encoding/xml	xmldata.go	4;"	i	line:4
+fmt	clientPackage/iniFunc/iniFunc.go	5;"	i	line:5
+fmt	clientPackage/login/login.go	4;"	i	line:4
+fmt	xmldata.go	5;"	i	line:5
+github.com/jenjer/ChatGo/internal/clientPackage	clientPackage/login/login.go	5;"	i	line:5
+gopkg.in/ini.v1	clientPackage/iniFunc/iniFunc.go	4;"	i	line:4
+id	clientPackage/Globals.go	8;"	w	access:private	ctype:User	line:8	type:string
+iniFunc	clientPackage/iniFunc/iniFunc.go	1;"	p	line:1
+name	clientPackage/Globals.go	9;"	w	access:private	ctype:User	line:9	type:string
+once	clientPackage/Globals.go	14;"	v	access:private	line:14	type:sync.Once
+os	xmldata.go	6;"	i	line:6
+sendXML	clientPackage/xmlSend/sendxml.go	1;"	p	line:1
+sync	clientPackage/Globals.go	4;"	i	line:4
+tryLogin	clientPackage/login/login.go	8;"	f	access:private	line:8	signature:(id string, pw string)
+xmldata	xmldata.go	1;"	p	line:1
