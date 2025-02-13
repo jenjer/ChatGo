@@ -4,38 +4,40 @@ import (
 	"fmt"
 	"io"
 	"net"
+
 	//"encoding/xml"
-	xmlstruct "github.com/jenjer/ChatGo/internal"
-	"sync"
 	"encoding/xml"
+	"sync"
+
+	xmlstruct "github.com/jenjer/ChatGo/internal"
 	DBConn "github.com/jenjer/ChatGo/internal/serverPackage/DB"
 	loginModule "github.com/jenjer/ChatGo/internal/serverPackage/Login"
 )
 
 type Client struct {
-	conn		net.Conn
-	id			string
-	outbound	chan []byte
+	conn     net.Conn
+	id       string
+	outbound chan []byte
 }
 
 type Server struct {
-	clients		map[string] *Client
-	mu			sync.RWMutex
-	broadcast	chan []byte
-	register	chan *Client
-	unregister	chan *Client
+	clients    map[string]*Client
+	mu         sync.RWMutex
+	broadcast  chan []byte
+	register   chan *Client
+	unregister chan *Client
 }
 
 func NewServer() *Server {
-	return &Server {
-		clients:	make(map[string] *Client),
-		broadcast:	make(chan []byte),
-		register:	make(chan *Client),
-		unregister:	make(chan *Client),
+	return &Server{
+		clients:    make(map[string]*Client),
+		broadcast:  make(chan []byte),
+		register:   make(chan *Client),
+		unregister: make(chan *Client),
 	}
 }
 
-func messageStruct(message []byte)(string) {
+func messageStruct(message []byte) string {
 	var msg xmlstruct.Chat
 	err := xml.Unmarshal(message, &msg)
 	if err != nil {
@@ -49,7 +51,7 @@ func messageStruct(message []byte)(string) {
 	return msg.ID + " : " + msg.Chat
 }
 
-func (s *Server) Start(){
+func (s *Server) Start() {
 	for {
 		select {
 		case client := <-s.register:
@@ -112,6 +114,14 @@ func (s *Server) handleClient(client *Client) {
 		}
 	}
 }
+func loginSuccessMessage(client *Client) {
+	message := []byte("success")
+	_, err := client.conn.Write(message)
+	if err != nil {
+		fmt.Printf("Error writing to client: %v\n", err)
+		return
+	}
+}
 
 func main() {
 	server := NewServer()
@@ -141,22 +151,25 @@ func main() {
 		if terr != nil {
 			fmt.Printf("err : %v\n", terr)
 		}
-		testerr := DbConn.AddUser("asdf","asdf")
+		testerr := DbConn.AddUser("asdf", "asdf")
 		if testerr != nil {
 			fmt.Printf("err : %v\n", testerr)
 
-			if (loginModule.TryLogin(conn, DbConn) == true) {
-				client := &Client {
-					conn:		conn,
-					id:			conn.RemoteAddr().String(),
-					outbound:	make(chan[]byte, 100),
+			if loginModule.TryLogin(conn, DbConn) == true {
+				client := &Client{
+					conn:     conn,
+					id:       conn.RemoteAddr().String(),
+					outbound: make(chan []byte, 100),
 				}
 				server.register <- client
+				//send login success message
+				loginSuccessMessage(client)
 				go server.handleClient(client)
+				fmt.Println("login Success")
 			} else {
+				fmt.Println("login failed")
 				// login fail message send
 			}
 		}
 	}
 }
-

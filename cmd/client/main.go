@@ -1,19 +1,21 @@
 package main
 
-import(
-	"net"
-	"sync"
-	"time"
+import (
+	"bufio"
 	"encoding/xml"
-	xmlstruct "github.com/jenjer/ChatGo/internal"
-	"os"
-	ini "github.com/jenjer/ChatGo/internal/clientPackage/iniFunc"
 	"fmt"
+	"net"
+	"os"
+	"sync"
+
+	xmlstruct "github.com/jenjer/ChatGo/internal"
 	define "github.com/jenjer/ChatGo/internal/clientPackage/defines"
+	ini "github.com/jenjer/ChatGo/internal/clientPackage/iniFunc"
 	login "github.com/jenjer/ChatGo/internal/clientPackage/login"
 	//Global "github.com/jenjer/ChatGo/internal/clientPackage"
 )
-func makeXml(input string)(xmlstruct.Chat) {
+
+func makeXml(input string) xmlstruct.Chat {
 	var sendChat xmlstruct.Chat
 	sendChat.Type = "Chat"
 	sendChat.ID = "input ID"
@@ -21,7 +23,7 @@ func makeXml(input string)(xmlstruct.Chat) {
 	return sendChat
 }
 
-func makeString(bytes []byte) (string) {
+func makeString(bytes []byte) string {
 	var msg xmlstruct.Chat
 	err := xml.Unmarshal(bytes, &msg)
 	if err != nil {
@@ -31,14 +33,14 @@ func makeString(bytes []byte) (string) {
 	return msg.ID + " : " + msg.Chat
 }
 
-func iniMain()(string, bool){
+func iniMain() (string, bool) {
 	args := os.Args
-	ip := ini.GetIni(define.MainData, define.ServerIP);
+	ip := ini.GetIni(define.MainData, define.ServerIP)
 	if len(os.Args) == 1 {
 
 		/*
-		propertySection := cfg.Section("property")
-		ServerIP := propertySection.Key("ServerIP").String()
+			propertySection := cfg.Section("property")
+			ServerIP := propertySection.Key("ServerIP").String()
 		*/
 		//여기 까지 ini 파일에서 server ip 주소 받아오는데 성공했는데 없다면?
 		if ip == "" {
@@ -57,13 +59,11 @@ func iniMain()(string, bool){
 		if temp != "y" {
 			return "", false
 		}
-		return ip,true
+		return ip, true
 	}
 }
 
 func main() {
-
-	time.Sleep(10000)
 	ip, errtemp := iniMain()
 	if errtemp == false {
 		return
@@ -82,6 +82,7 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(2)
 
+	scanner := bufio.NewScanner(os.Stdin)
 	// 데이터 보내는 goroutine
 	go func(c net.Conn) {
 		defer wg.Done()
@@ -89,7 +90,9 @@ func main() {
 		fmt.Print("> ")
 		for {
 			var input string
-			fmt.Scanln(&input)
+			scanner.Scan()
+			input = scanner.Text()
+			//fmt.Scanln(&input)
 
 			if input == "quit" {
 				fmt.Println("Closing connection...")
@@ -123,11 +126,10 @@ func main() {
 				return
 			}
 			forPrint := makeString(recv)
-			fmt.Print("\r" + forPrint + "\n")// string(recv[:n]))
+			fmt.Print("\r" + forPrint + "\n") // string(recv[:n]))
 			fmt.Print("> ")
 		}
 	}(conn)
 
 	wg.Wait()
 }
-
