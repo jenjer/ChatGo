@@ -6,6 +6,7 @@ import (
 	//Globals "github.com/jenjer/ChatGo/internal/clientPackage"
 	xmldata "github.com/jenjer/ChatGo/internal"
 	sendxml "github.com/jenjer/ChatGo/internal/clientPackage/xmlSend"
+	Global "github.com/jenjer/ChatGo/internal/clientPackage"
 )
 
 func tryLogin(id string, pw string, conn net.Conn) {
@@ -21,6 +22,7 @@ func Login(conn net.Conn) {
 	var PW string
 	fmt.Print("Input your Login ID : ")
 	fmt.Scan(&ID)
+	Global.SetID(ID)
 
 	fmt.Print("Input your Login PW : ")
 	fmt.Scan(&PW)

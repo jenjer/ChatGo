@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"net/http"
 
 	//"encoding/xml"
 	"encoding/xml"
@@ -12,12 +13,14 @@ import (
 	xmlstruct "github.com/jenjer/ChatGo/internal"
 	DBConn "github.com/jenjer/ChatGo/internal/serverPackage/DB"
 	loginModule "github.com/jenjer/ChatGo/internal/serverPackage/Login"
+	"github.com/labstack/echo/v4"
 )
 
 type Client struct {
 	conn     net.Conn
 	id       string
 	outbound chan []byte
+	loginid  string
 }
 
 type Server struct {
@@ -114,7 +117,7 @@ func (s *Server) handleClient(client *Client) {
 		}
 	}
 }
-func loginSuccessMessage(client *Client, conn net.Conn,success bool) {
+func loginSuccessMessage(client *Client, conn net.Conn, success bool) {
 	message := []byte("success")
 	_, err := client.conn.Write(message)
 	if err != nil {
@@ -123,7 +126,7 @@ func loginSuccessMessage(client *Client, conn net.Conn,success bool) {
 	}
 	///////
 	var LoginAnswer string
-	if success == true	{
+	if success == true {
 		LoginAnswer = "Success"
 	} else {
 		LoginAnswer = "False"
@@ -153,7 +156,14 @@ func main() {
 	defer l.Close()
 
 	fmt.Println("Server started on port 8000")
-
+	// 현 위치에 고 루틴으로 웹서버를 넣을것
+	go func() {
+		e := echo.New()
+		e.GET("/", func(c echo.Context) error {
+			return c.String(http.StatusOK, "Hello, World!")
+		})
+		e.Logger.Fatal(e.Start(":1323"))
+	}()
 	for {
 		conn, err := l.Accept()
 		if err != nil {
@@ -173,20 +183,21 @@ func main() {
 		client := &Client{
 			conn:     conn,
 			id:       conn.RemoteAddr().String(),
+			loginid:  "",
 			outbound: make(chan []byte, 100),
 		}
 		if testerr != nil {
 			fmt.Printf("err : %v\n", testerr)
-
-			if loginModule.TryLogin(conn, DbConn) == true {
-							server.register <- client
+			if booltemp, recvID := loginModule.TryLogin(conn, DbConn); booltemp == true {
+				server.register <- client
+				client.loginid = recvID
 				//send login success message
-				loginSuccessMessage(client, conn,true)
+				loginSuccessMessage(client, conn, true)
 				go server.handleClient(client)
 				fmt.Println("login Success")
 			} else {
 				fmt.Println("login failed")
-				loginSuccessMessage(client, conn,false)
+				loginSuccessMessage(client, conn, false)
 				// login fail message send
 			}
 		}

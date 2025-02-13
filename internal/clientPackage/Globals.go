@@ -14,10 +14,19 @@ var (
 	once        sync.Once
 )
 
+func getInstance() *User {
+	once.Do(func() {
+		currentUser = &User{}
+	})
+	return currentUser
+}
+
 func SetID(ID string) {
-	currentUser.id = ID
+	user := getInstance()
+	user.id = ID
 }
 
 func GetID()(string) {
-	return currentUser.id
+	user := getInstance()
+	return user.id
 }

@@ -9,14 +9,14 @@ import (
 	DBConn "github.com/jenjer/ChatGo/internal/serverPackage/DB"
 )
 
-func TryLogin(conn net.Conn, DbConn *DBConn.UserDB)(bool) {
+func TryLogin(conn net.Conn, DbConn *DBConn.UserDB)(bool,string) {
 	fmt.Printf("Read ID/PW")
 
 	
 	xmltype, recv, n := xmlstruct.GetDefaultXML(conn)
 	if xmltype != "Login" || recv == nil {
 		fmt.Println("type is not Login")
-		return false;
+		return false, "";
 	} 
 
 	//print holedata
@@ -27,7 +27,7 @@ func TryLogin(conn net.Conn, DbConn *DBConn.UserDB)(bool) {
 	err := xml.Unmarshal(recv[:n], &msg)
 	if err != nil {
 		fmt.Println("Error parsing XmL:", err)
-		return false
+		return false, ""
 	}
 	fmt.Printf("\nLogin ParsingData\n")
 	fmt.Printf("Message Type : %s\n", msg.Type)
@@ -35,9 +35,9 @@ func TryLogin(conn net.Conn, DbConn *DBConn.UserDB)(bool) {
 	fmt.Printf("Message PW : %s\n", msg.PW)
 
 	if temp, err := DbConn.ValidateUser(msg.ID, msg.PW); temp == true {
-		return true
+		return true, msg.ID
 	} else {
 		fmt.Println("Something is wrong : " ,err)
 	}
-	return false
+	return false, ""
 }

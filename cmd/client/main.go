@@ -12,13 +12,14 @@ import (
 	define "github.com/jenjer/ChatGo/internal/clientPackage/defines"
 	ini "github.com/jenjer/ChatGo/internal/clientPackage/iniFunc"
 	login "github.com/jenjer/ChatGo/internal/clientPackage/login"
+	Global "github.com/jenjer/ChatGo/internal/clientPackage"
 	//Global "github.com/jenjer/ChatGo/internal/clientPackage"
 )
 
 func makeXml(input string) xmlstruct.Chat {
 	var sendChat xmlstruct.Chat
 	sendChat.Type = "Chat"
-	sendChat.ID = "input ID"
+	sendChat.ID = Global.GetID()
 	sendChat.Chat = input
 	return sendChat
 }
@@ -44,6 +45,9 @@ func makeString(bytes []byte) string {
 			fmt.Println("Error parsing ChatXml: ", err)
 			return ""
 		}
+	}
+	if msg.ID == Global.GetID() {
+		return ""
 	}
 	return msg.ID + " : " + msg.Chat
 }
@@ -143,6 +147,10 @@ func main() {
 				return
 			}
 			forPrint := makeString(recv)
+			if forPrint == "" {
+				fmt.Print("> ")
+				continue
+			}
 			fmt.Print("\r" + forPrint + "\n") // string(recv[:n]))
 			fmt.Print("> ")
 		}
