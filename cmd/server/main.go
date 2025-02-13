@@ -114,11 +114,27 @@ func (s *Server) handleClient(client *Client) {
 		}
 	}
 }
-func loginSuccessMessage(client *Client) {
+func loginSuccessMessage(client *Client, conn net.Conn,success bool) {
 	message := []byte("success")
 	_, err := client.conn.Write(message)
 	if err != nil {
 		fmt.Printf("Error writing to client: %v\n", err)
+		return
+	}
+	///////
+	var LoginAnswer string
+	if success == true	{
+		LoginAnswer = "Success"
+	} else {
+		LoginAnswer = "False"
+	}
+	var senddata xmlstruct.LoginAns
+	senddata.Type = "LoginResult"
+	senddata.Result = LoginAnswer
+	encoder := xml.NewEncoder(conn)
+	err = encoder.Encode(senddata)
+	if err != nil {
+		fmt.Println("Failed to send data loginfail")
 		return
 	}
 }
@@ -152,22 +168,25 @@ func main() {
 			fmt.Printf("err : %v\n", terr)
 		}
 		testerr := DbConn.AddUser("asdf", "asdf")
+		testerr = DbConn.AddUser("first", "first")
+		testerr = DbConn.AddUser("test", "1234")
+		client := &Client{
+			conn:     conn,
+			id:       conn.RemoteAddr().String(),
+			outbound: make(chan []byte, 100),
+		}
 		if testerr != nil {
 			fmt.Printf("err : %v\n", testerr)
 
 			if loginModule.TryLogin(conn, DbConn) == true {
-				client := &Client{
-					conn:     conn,
-					id:       conn.RemoteAddr().String(),
-					outbound: make(chan []byte, 100),
-				}
-				server.register <- client
+							server.register <- client
 				//send login success message
-				loginSuccessMessage(client)
+				loginSuccessMessage(client, conn,true)
 				go server.handleClient(client)
 				fmt.Println("login Success")
 			} else {
 				fmt.Println("login failed")
+				loginSuccessMessage(client, conn,false)
 				// login fail message send
 			}
 		}

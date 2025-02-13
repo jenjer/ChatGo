@@ -23,12 +23,27 @@ func makeXml(input string) xmlstruct.Chat {
 	return sendChat
 }
 
+func CheckLogin(bytes []byte) bool{
+	var Ans  xmlstruct.LoginAns
+	err := xml.Unmarshal(bytes, &Ans)
+	if err != nil {
+		fmt.Println("Error parsing LogAnsXml: ", err)
+		return false
+	}
+	fmt.Println("login result : ", Ans.Result)
+	return true
+}
+
 func makeString(bytes []byte) string {
 	var msg xmlstruct.Chat
 	err := xml.Unmarshal(bytes, &msg)
 	if err != nil {
-		fmt.Println("Error parsing Xml: ", err)
-		return ""
+		if (CheckLogin(bytes) == true){
+			return ""
+		} else {
+			fmt.Println("Error parsing ChatXml: ", err)
+			return ""
+		}
 	}
 	return msg.ID + " : " + msg.Chat
 }
@@ -100,6 +115,8 @@ func main() {
 			}
 
 			if input == "" {
+				fmt.Print("\r") // string(recv[:n]))
+				fmt.Print(">")
 				continue
 			}
 

@@ -17,41 +17,27 @@ func TryLogin(conn net.Conn, DbConn *DBConn.UserDB)(bool) {
 	if xmltype != "Login" || recv == nil {
 		fmt.Println("type is not Login")
 		return false;
-	}
-	/*
-	//n, err := conn.Read(recv)
+	} 
+
+	//print holedata
+	fmt.Println("Received raw data: ", string(recv[:n]))
+
+	//xml parsing
+	var msg xmlstruct.Login
+	err := xml.Unmarshal(recv[:n], &msg)
 	if err != nil {
-		if err == io.EOF {
-			fmt.Println("connection is closed from client")
-			return false
-		}
-		fmt.Println("Failed to receive login data : ",err)
+		fmt.Println("Error parsing XmL:", err)
 		return false
 	}
-	*/
-//	if n > 0 
-	{
-		//print holedata
-		fmt.Println("Received raw data: ", string(recv[:n]))
+	fmt.Printf("\nLogin ParsingData\n")
+	fmt.Printf("Message Type : %s\n", msg.Type)
+	fmt.Printf("Message ID : %s\n", msg.ID)
+	fmt.Printf("Message PW : %s\n", msg.PW)
 
-		//xml parsing
-		var msg xmlstruct.Login
-		err := xml.Unmarshal(recv[:n], &msg)
-		if err != nil {
-			fmt.Println("Error parsing XmL:", err)
-			return false
-		}
-		fmt.Printf("\nLogin ParsingData\n")
-		fmt.Printf("Message Type : %s\n", msg.Type)
-		fmt.Printf("Message ID : %s\n", msg.ID)
-		fmt.Printf("Message PW : %s\n", msg.PW)
-
-		if temp, err := DbConn.ValidateUser(msg.ID, msg.PW); temp == true {
-			return true
-		} else {
-			fmt.Println("Something is wrong : " ,err)
-		}
-
+	if temp, err := DbConn.ValidateUser(msg.ID, msg.PW); temp == true {
+		return true
+	} else {
+		fmt.Println("Something is wrong : " ,err)
 	}
 	return false
 }

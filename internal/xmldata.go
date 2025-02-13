@@ -8,33 +8,30 @@ import (
 	"os"
 )
 
-type DefaultStr struct {
-	XMLName xml.Name `xml:"Login"`
+type DefaultReq struct {
+	XMLName xml.Name `xml:"Request"`
+	Type    string   `xml:"Type"`
+}
+type DefaultRes struct {
+	XMLName xml.Name `xml:"Response"`
 	Type    string   `xml:"Type"`
 }
 
 type LoginAns struct {
-	XMLName xml.Name `xml:"Login"`
+	XMLName xml.Name `xml:"Response"`
 	Type    string   `xml:"Type"`
 	Result  string   `xml:"Result"`
 }
 
 type Login struct {
-	XMLName xml.Name `xml:"Login"`
+	XMLName xml.Name `xml:"Request"`
 	Type    string   `xml:"Type"`
 	ID      string   `xml:"ID"`
 	PW      string   `xml:"PW"`
 }
 
-type LoginResult struct {
-	XMLName xml.Name `xml:"Login"`
-	Type    string   `xml:"Type"`
-	ID      string   `xml:"ID"`
-	Result  string   `xml:"Result"`
-}
-
 type Chat struct {
-	XMLName xml.Name `xml:"Chat"`
+	XMLName xml.Name `xml:"Request"`
 	Type    string   `xml:"Type"`
 	ID      string   `xml:"ID"`
 	Chat    string   `xml:"ChatString"`
@@ -78,7 +75,7 @@ func GetDefaultXML(conn net.Conn) (string,[]byte, int){
 		fmt.Println("Received raw data: ", string(recv[:n]))
 		///////////////
 		//xml parsing
-		var msg DefaultStr
+		var msg DefaultReq
 		err = xml.Unmarshal(recv[:n], &msg)
 		if err != nil {
 			fmt.Println("Error parsing XmL:", err)
